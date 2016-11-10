@@ -42,7 +42,7 @@ public class CanalServerWithEmbedded extends AbstractCanalLifeCycle implements C
 
     private static final Logger        logger = LoggerFactory.getLogger(CanalServerWithEmbedded.class);
     private Map<String, CanalInstance> canalInstances;
-    // private Map<ClientIdentity, Position> lastRollbackPostions;
+    // private Map<ClientIdentity, Position> lastRollbackPositions;
     private CanalInstanceGenerator     canalInstanceGenerator;
 
     private static class SingletonHolder {
@@ -69,7 +69,7 @@ public class CanalServerWithEmbedded extends AbstractCanalLifeCycle implements C
                 }
             });
 
-            // lastRollbackPostions = new MapMaker().makeMap();
+            // lastRollbackPositions = new MapMaker().makeMap();
         }
     }
 
@@ -358,7 +358,7 @@ public class CanalServerWithEmbedded extends AbstractCanalLifeCycle implements C
         }
 
         // 更新cursor最好严格判断下位置是否有跳跃更新
-        // Position position = lastRollbackPostions.get(clientIdentity);
+        // Position position = lastRollbackPositions.get(clientIdentity);
         // if (position != null) {
         // // Position position =
         // canalInstance.getMetaManager().getCursor(clientIdentity);
@@ -433,7 +433,7 @@ public class CanalServerWithEmbedded extends AbstractCanalLifeCycle implements C
                     batchId));
             }
 
-            // lastRollbackPostions.put(clientIdentity,
+            // lastRollbackPositions.put(clientIdentity,
             // positionRanges.getEnd());// 记录一下最后rollback的位置
             // TODO 后续rollback到指定的batchId位置
             canalInstance.getEventStore().rollback();// rollback

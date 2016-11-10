@@ -110,8 +110,8 @@ public class FileMixedMetaManager extends MemoryMetaManager implements CanalMeta
                         if (logger.isInfoEnabled()) {
                             LogPosition cursor = (LogPosition) getCursor(clientIdentity);
                             logger.info("clientId:{} cursor:[{},{},{}] address[{}]",
-                                new Object[] { clientIdentity.getClientId(), cursor.getPostion().getJournalName(),
-                                        cursor.getPostion().getPosition(), cursor.getPostion().getTimestamp(),
+                                new Object[] { clientIdentity.getClientId(), cursor.getPosition().getJournalName(),
+                                        cursor.getPosition().getPosition(), cursor.getPosition().getTimestamp(),
                                         cursor.getIdentity().getSourceAddress().toString() });
                         }
                         flushDataToFile(clientIdentity.getDestination());

@@ -122,11 +122,11 @@ public class FileMixedLogPositionManager extends MemoryLogPositionManager {
     }
 
     public LogPosition getLatestIndexBy(String destination) {
-        LogPosition logPostion = super.getLatestIndexBy(destination);
-        if (logPostion == nullPosition) {
+        LogPosition logPosition = super.getLatestIndexBy(destination);
+        if (logPosition == nullPosition) {
             return null;
         } else {
-            return logPostion;
+            return logPosition;
         }
     }
 

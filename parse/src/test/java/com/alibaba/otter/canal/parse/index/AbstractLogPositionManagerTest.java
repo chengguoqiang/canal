@@ -17,22 +17,22 @@ public class AbstractLogPositionManagerTest extends AbstractZkTest {
         LogPosition getPosition = logPositionManager.getLatestIndexBy(destination);
         Assert.assertNull(getPosition);
 
-        LogPosition postion1 = buildPosition(1);
-        logPositionManager.persistLogPosition(destination, postion1);
+        LogPosition position1 = buildPosition(1);
+        logPositionManager.persistLogPosition(destination, position1);
         LogPosition getPosition1 = logPositionManager.getLatestIndexBy(destination);
-        Assert.assertEquals(postion1, getPosition1);
+        Assert.assertEquals(position1, getPosition1);
 
-        LogPosition postion2 = buildPosition(2);
-        logPositionManager.persistLogPosition(destination, postion2);
+        LogPosition position2 = buildPosition(2);
+        logPositionManager.persistLogPosition(destination, position2);
         LogPosition getPosition2 = logPositionManager.getLatestIndexBy(destination);
-        Assert.assertEquals(postion2, getPosition2);
-        return postion2;
+        Assert.assertEquals(position2, getPosition2);
+        return position2;
     }
 
     protected LogPosition buildPosition(int number) {
         LogPosition position = new LogPosition();
         position.setIdentity(new LogIdentity(new InetSocketAddress(MYSQL_ADDRESS, 3306), 1234L));
-        position.setPostion(new EntryPosition("mysql-bin.000000" + number, 106L, new Date().getTime()));
+        position.setPosition(new EntryPosition("mysql-bin.000000" + number, 106L, new Date().getTime()));
         return position;
     }
 }

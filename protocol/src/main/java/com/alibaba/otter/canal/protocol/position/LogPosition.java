@@ -56,11 +56,11 @@ public class LogPosition extends Position {
         } else if (!identity.equals(other.identity)) {
             return false;
         }
-        if (postion == null) {
-            if (other.postion != null) {
+        if (position == null) {
+            if (other.position != null) {
                 return false;
             }
-        } else if (!postion.equals(other.postion)) {
+        } else if (!position.equals(other.position)) {
             return false;
         }
         return true;

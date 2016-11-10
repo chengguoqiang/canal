@@ -399,13 +399,13 @@ public class MysqlEventParser extends AbstractMysqlEventParser implements CanalE
                     // 1. binlog位点被删除
                     // 2.vip模式的mysql,发生了主备切换,判断一下serverId是否变化,针对这种模式可以发起一次基于时间戳查找合适的binlog位点
                     boolean case2 = (standbyInfo == null || standbyInfo.getAddress() == null)
-                                    && logPosition.getPostion().getServerId() != null
-                                    && !logPosition.getPostion().getServerId().equals(findServerId(mysqlConnection));
+                                    && logPosition.getPosition().getServerId() != null
+                                    && !logPosition.getPosition().getServerId().equals(findServerId(mysqlConnection));
                     if (case2) {
-                        long timestamp = logPosition.getPostion().getTimestamp();
+                        long timestamp = logPosition.getPosition().getTimestamp();
                         long newStartTimestamp = timestamp - fallbackIntervalInSeconds * 1000;
                         logger.warn("prepare to find start position by last position {}:{}:{}", new Object[] { "", "",
-                                logPosition.getPostion().getTimestamp() });
+                                logPosition.getPosition().getTimestamp() });
                         EntryPosition findPosition = findByStartTimeStamp(mysqlConnection, newStartTimestamp);
                         // 重新置为一下
                         dumpErrorCount = 0;
@@ -414,12 +414,12 @@ public class MysqlEventParser extends AbstractMysqlEventParser implements CanalE
                 }
                 // 其余情况
                 logger.warn("prepare to find start position just last position\n {}",JsonUtils.marshalToString(logPosition));
-                return logPosition.getPostion();
+                return logPosition.getPosition();
             } else {
                 // 针对切换的情况，考虑回退时间
-                long newStartTimestamp = logPosition.getPostion().getTimestamp() - fallbackIntervalInSeconds * 1000;
+                long newStartTimestamp = logPosition.getPosition().getTimestamp() - fallbackIntervalInSeconds * 1000;
                 logger.warn("prepare to find start position by switch {}:{}:{}", new Object[] { "", "",
-                        logPosition.getPostion().getTimestamp() });
+                        logPosition.getPosition().getTimestamp() });
                 return findByStartTimeStamp(mysqlConnection, newStartTimestamp);
             }
         }
@@ -716,13 +716,13 @@ public class MysqlEventParser extends AbstractMysqlEventParser implements CanalE
                                 logposTimestamp);
                             logger.debug("set {} to be pending start position before finding another proper one...",
                                 entryPosition);
-                            logPosition.setPostion(entryPosition);
+                            logPosition.setPosition(entryPosition);
                         } else if (CanalEntry.EntryType.TRANSACTIONBEGIN.equals(entry.getEntryType())) {
                             // 当前事务开始位点
                             entryPosition = new EntryPosition(logfilename, logfileoffset, logposTimestamp);
                             logger.debug("set {} to be pending start position before finding another proper one...",
                                 entryPosition);
-                            logPosition.setPostion(entryPosition);
+                            logPosition.setPosition(entryPosition);
                         }
 
                         lastPosition = buildLastPosition(entry);
@@ -738,8 +738,8 @@ public class MysqlEventParser extends AbstractMysqlEventParser implements CanalE
             logger.error("ERROR ## findAsPerTimestampInSpecificLogFile has an error", e);
         }
 
-        if (logPosition.getPostion() != null) {
-            return logPosition.getPostion();
+        if (logPosition.getPosition() != null) {
+            return logPosition.getPosition();
         } else {
             return null;
         }
